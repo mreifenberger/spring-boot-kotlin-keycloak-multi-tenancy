@@ -23,32 +23,12 @@ class SecurityConfig(
 
     @Bean
     fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
-        http
-            .authorizeExchange { authorize ->
-                authorize.pathMatchers("/actuator/**", "/swagger-resources/**", "/favicon.ico").permitAll()
-                    .anyExchange()
-                    .authenticated()
-            }
-            .oauth2Login { oauth2Login ->
-                oauth2Login.authorizedClientRepository(authorizedClientRepository)
-                oauth2Login.clientRegistrationRepository(clientRegistrationRepository)
-            }
-            .oauth2ResourceServer { oauth2 ->
-                oauth2.authenticationManagerResolver(subdomainAuthenticationManagerResolver)
-            }
-            .exceptionHandling { e ->
-                e.authenticationEntryPoint { exchange, exception ->
-                    val realmConfig = exchange.getAttribute<KeycloakClientProperties.RealmConfigurationProperties>(
-                        SubdomainRealmFilter.REALM_CONFIG_ATTR_NAME
-                    )
-                    val registrationId = realmConfig?.realm
-                    SubdomainAuthEntryPointWrapper("/oauth2/authorization/$registrationId").commence(
-                        exchange,
-                        exception
-                    )
-                }
-            }
-        http.addFilterAt(SaveOriginUrlFilter(), SecurityWebFiltersOrder.FIRST)
+        //TODO: permitAll for "/actuator/**", "/swagger-resources/**", "/favicon.ico"
+        //TODO: configure oauth2Login with the relevant repositories
+        //TODO: configure oauth2ResourceServer
+        //TODO: add exception handling. retrieve registrationId and pass it to the SubdomainAuthEntryPointWrapper like: "/oauth2/authorization/$registrationId" P.S.: registrationId == realm
+        //TODO: add saveOriginUrlFilter and make it the first filter in the chain
+
         return http.build()
     }
 }

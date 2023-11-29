@@ -32,10 +32,6 @@ class SubdomainRealmFilter(
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
         val subdomain = exchange.request.uri.host.substringBefore('.')
         exchange.attributes[REALM_CONFIG_ATTR_NAME] = getCurrentKeycloakConfiguration(subdomain)
-/*        val registrations = keycloakClientProperties.realms.map { realm ->
-            createClientRegistration(realm)
-        }
-        dynamicClientRegistrationRepository.addClientRegistrations(registrations)*/
         return chain.filter(exchange)
     }
 
