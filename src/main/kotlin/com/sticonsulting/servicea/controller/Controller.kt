@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Mono
 
 
 @RestController
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 class Controller {
 
     @GetMapping("/hello")
-    fun helloWorld(): String {
-        return "Hello from Service A"
+    fun helloWorld(): Mono<String> {
+        return Mono.just("Hello from Service A")
     }
 }

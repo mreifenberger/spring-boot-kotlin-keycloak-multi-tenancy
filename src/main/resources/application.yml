@@ -1,0 +1,21 @@
+server:
+  port: 8081
+kc:
+  realms:
+    - sub-domain: bmw
+      base-url: http://${kc.realms[0].sub-domain}.localhost:8080
+      realm: bmw
+      realmUrl: ${kc.realms[0].base-url}/auth/realms/${kc.realms[0].realm}
+      clientId: backend-client
+      clientSecret: ZbqxbkIgNk6pqMcccwyZsr6wid6q1Jv0
+    - sub-domain: porsche
+      base-url: http://${kc.realms[1].sub-domain}.localhost:8080
+      realm: porsche
+      realmUrl: ${kc.realms[1].base-url}/auth/realms/${kc.realms[1].realm}
+      clientId: backend-client
+      clientSecret: OIJTiBprqecPzhqLP4F519nHZJqHtzQc
+logging:
+  level:
+    com.com.sticonsulting: TRACE
+    org.springframework.web: TRACE
+    org.springframework.security: TRACE
