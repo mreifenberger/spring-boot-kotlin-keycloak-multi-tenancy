@@ -10,7 +10,10 @@ import org.springframework.web.filter.OncePerRequestFilter
 class TenantIdentificationFilter : OncePerRequestFilter() {
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
-        val realm = request.getHeader("X-Realm") ?: "defaultRealm"
+        val path = request.requestURI
+        val parts = path.split("/")
+        val realm = if (parts.size > 1) parts[1] else "defaultRealm" // Extracting realm from the path
+
         logger.info("Received realm: $realm")
 
         TenantContext.setCurrentTenant(realm)

@@ -15,7 +15,7 @@ class TenantResolver : HandlerInterceptor {
     private lateinit var requestScopedBean: RequestScopedBean
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        val realm = request.getHeader("X-Realm") ?: "defaultRealm"
+        val realm = TenantContext.getCurrentTenant()
         requestScopedBean.setRealm(realm)
         return true
     }
